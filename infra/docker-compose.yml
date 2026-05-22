@@ -1,0 +1,20 @@
+version: '3.9'
+services:
+  api:
+    build:
+      context: ..
+      dockerfile: infra/docker/backend.Dockerfile
+    ports:
+      - '8000:8000'
+    environment:
+      - DATABASE_URL=postgresql+psycopg://requestii:requestii@db:5432/requestii
+    depends_on:
+      - db
+  db:
+    image: postgis/postgis:16-3.4
+    environment:
+      - POSTGRES_USER=requestii
+      - POSTGRES_PASSWORD=requestii
+      - POSTGRES_DB=requestii
+    ports:
+      - '5432:5432'
